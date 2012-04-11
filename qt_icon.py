@@ -1,6 +1,4 @@
-import tray_icon
-
-class NotificationIcon(tray_icon.TrayIcon):
+class NotificationIcon(object):
     ''' The QT Icon Instance '''
 
     pass
