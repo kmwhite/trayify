@@ -1,0 +1,11 @@
+Fabric==1.4.0
+cov-core==1.6
+coverage==3.5.1
+distribute==0.6.24
+pep8==1.0.1
+py==1.4.7
+pycrypto==2.5
+pytest==2.2.3
+pytest-cov==1.5
+ssh==1.7.13
+wsgiref==0.1.2
