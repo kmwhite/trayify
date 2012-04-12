@@ -27,5 +27,9 @@ def coverage_loop():
         local('read')
 
 def clean():
-    ''' Clean the *.pyc files from the working tree '''
+    '''
+        Clean the *.pyc files from the working tree. Additionally, remove all
+        the __pycache__ directories
+    '''
+    local('find . -type d -name "*__pycache__*" -exec rm -rv {} \;')
     local('find . -iname "*.pyc" -exec rm -v {} \;')
