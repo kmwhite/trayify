@@ -16,6 +16,10 @@ def coverage():
     ''' Run the unit tests and generate a coverage report '''
     local('py.test --cov trayify test_trayify.py')
 
+def coverage_html():
+    ''' Generate the HTML coverage report '''
+    local('coverage run test_trayify.py; coverage html; firefox htmlcov/index.html')
+
 def coverage_loop():
     ''' Run the coverage report in an infinite loop '''
     while True:
