@@ -3,7 +3,7 @@ import qt_icon
 
 class TrayifyError(Exception):
     ''' Exception Class for Trayify Errors '''
-    def __init__(self, value):
+    def __init__(self, value = 'No value provided'):
         ''' Create a TrayifyError instance '''
         self.value = value
     def __repr__(self):
@@ -12,9 +12,9 @@ class TrayifyError(Exception):
 
 class InvalidUserInterfaceError(TrayifyError):
     ''' Exception: A bad UI type was passed to Trayify '''
-    def __init__(self):
+    def __init__(self, message = 'Invalid UI Type'):
         ''' Create a new BadUserInterfaceType Exception '''
-        super().__init__('Invalid UI Type')
+        super(InvalidUserInterfaceError, self).__init__(message)
 
 
 def initialize(ui_type, *args, **kwargs):
@@ -25,4 +25,5 @@ def initialize(ui_type, *args, **kwargs):
     elif ui_type == 'qt':
         return qt_icon.NotificationIcon()
     else:
-        raise InvalidUserInterfaceError()
+        msg = "{0} is not a valid UI type".format(ui_type)
+        raise InvalidUserInterfaceError(msg)
