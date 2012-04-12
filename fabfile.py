@@ -16,14 +16,20 @@ def coverage():
     ''' Run the unit tests and generate a coverage report '''
     local('py.test --cov trayify test_trayify.py')
 
-def pep8():
-    ''' Check the code base for PEP8 Compatibility '''
-    local('pep8 .')
-
 def coverage_loop():
     ''' Run the coverage report in an infinite loop '''
     while True:
         coverage()
+        local('read')
+
+def pep8():
+    ''' Check the code base for PEP8 Compatibility '''
+    local('pep8 trayify/')
+
+def pep8_loop():
+    ''' Run the pep8 report in an infinite loop '''
+    while True:
+        pep8()
         local('read')
 
 def clean():
