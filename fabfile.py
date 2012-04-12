@@ -13,3 +13,11 @@ def test():
 
 def coverage():
     local('py.test --cov trayify test_trayify.py')
+
+def pep8():
+    local('pep8 .')
+
+def coverage_loop():
+    while True:
+        coverage()
+        local('read')
