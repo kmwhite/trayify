@@ -9,7 +9,7 @@ class TrayifyError(Exception):
         ''' Create a TrayifyError instance '''
         self.value = value
 
-    def __repr__(self):
+    def __str__(self):
         ''' Define a textual representation of the Instance '''
         return "{0}: {1}".format(self.__class__.__name__, self.value)
 
