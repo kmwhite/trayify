@@ -27,6 +27,15 @@ class TestTrayify(unittest.TestCase):
         icon = trayify.initialize('gtk')
         self.assertIsInstance(icon, trayify.gtk_icon.NotificationIcon,
                               'icon is not a gtk_icon.NotificationIcon')
+        icon.create_icon()
+        inst_icon = icon.icon
+        self.assertIsInstance(inst_icon, trayify.gtk_icon.gtk.StatusIcon,
+                              'real_icon is not a gtk.StatusIcon')
+        self.assertEqual(inst_icon.get_visible(), True,
+                         'inst_icon is not visable')
+        self.assertEqual(inst_icon.get_stock(),
+                         trayify.gtk_icon.gtk.STOCK_ABOUT,
+                         'inst_icon does not have the correct icon')
 
     def test_qt_icons(self):
         ''' Testing the creation of the qt_icon.NotificationIcon instance '''
