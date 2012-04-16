@@ -46,8 +46,7 @@ class NotificationIcon(object):
         md.run()
         md.destroy()
 
-    def get_message(self, primary_message, secondary_message=None,
-                    *args, **kwargs):
+    def get_message(self, primary, secondary=None, *args, **kwargs):
         # http://ardoris.wordpress.com/2008/07/05/pygtk-text-entry-dialog/
 
         # Create the gtk.MessageDialog to get the message
@@ -57,7 +56,7 @@ class NotificationIcon(object):
                                    gtk.MESSAGE_QUESTION,
                                    gtk.BUTTONS_OK,
                                    None)
-        dialog.set_markup(primary_message)
+        dialog.set_markup(primary)
 
         # Create the text input field
         entry = gtk.Entry()
@@ -71,12 +70,12 @@ class NotificationIcon(object):
 
         # create a horizontal box to pack the entry and a label
         hbox = gtk.HBox()
-        hbox.pack_start(gtk.Label("Name:"), False, 5, 5)
+        hbox.pack_start(gtk.Label(kwargs.get('label', '')), False, 5, 5)
         hbox.pack_end(entry)
 
         # If a sub-heading is provided, display it
-        if secondary_message:
-            dialog.format_secondary_markup(secondary_message)
+        if secondary:
+            dialog.format_secondary_markup(secondary)
 
         #add it and show it
         dialog.vbox.pack_end(hbox, True, True, 0)
