@@ -21,9 +21,9 @@ class NotificationIcon(object):
         gtk.gdk.threads_init()
         try:
             if 'Indicator' in dir(appindicator) and 'appindicator' in args:
-	        self.app_name = "example-simple-client"
-	        self.icon_name = "ubuntuone-client-idle"
-		self.has_appindicator = True
+                self.app_name = "example-simple-client"
+                self.icon_name = "ubuntuone-client-idle"
+                self.has_appindicator = True
             else:
                 raise
         except:
@@ -38,13 +38,13 @@ class NotificationIcon(object):
         if self.has_appindicator:
             self.icon.set_status(appindicator.STATUS_PASSIVE)
 
-
     ''' The AppIndicator Icon Instance '''
     def create_icon(self):
         ''' Create the "System Tray" icon '''
         if self.has_appindicator:
-            self.icon = appindicator.Indicator(self.app_name, self.icon_name,
-                                               appindicator.CATEGORY_APPLICATION_STATUS)
+            self.icon = appindicator.Indicator(
+                self.app_name, self.icon_name,
+                appindicator.CATEGORY_APPLICATION_STATUS)
             self.icon.set_status(appindicator.STATUS_ACTIVE)
         else:
             self.icon = gtk.StatusIcon()
