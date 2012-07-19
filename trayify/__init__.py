@@ -55,7 +55,9 @@ class InvalidUserInterfaceError(TrayifyError):
 def initialize(ui_type, *args, **kwargs):
     ''' Start-up Trayify '''
 
-    if ui_type == 'gtk':
+    if ui_type == 'appindicator':
+        return gtk_icon.NotificationIcon('appindicator')
+    elif ui_type == 'gtk':
         return gtk_icon.NotificationIcon()
     elif ui_type == 'qt':
         return qt_icon.NotificationIcon()

@@ -5,6 +5,7 @@ from __future__ import print_function
 import unittest
 
 # Third Party Imports
+import appindicator
 
 # Local Imports
 import trayify
@@ -19,6 +20,22 @@ class TestTrayify(unittest.TestCase):
     def tearDown(self):
         ''' Tear Down the tests '''
         pass
+
+    def test_appindicator_creation(self):
+        ''' Testing the creation of the gtk_icon.NotificationIcon instance '''
+
+        # Creating an AppIndicator NotificationIcon
+        icon = trayify.initialize('appindicator')
+        self.assertIsInstance(icon, trayify.gtk_icon.NotificationIcon,
+                              'icon is not an appindicator_icon.NotificationIcon')
+        icon.create_icon()
+        inst_icon = icon.icon
+        self.assertIsInstance(inst_icon, trayify.gtk_icon.appindicator.Indicator,
+                              'real_icon is not an appindicator.Indicator')
+        self.assertEqual(inst_icon.get_status(), appindicator.STATUS_ACTIVE,
+                         'inst_icon is not active')
+        self.assertEqual(inst_icon.get_id(), 'example-simple-client',
+                         'inst_icon does not have the correct id')
 
     def test_gtk_creation(self):
         ''' Testing the creation of the gtk_icon.NotificationIcon instance '''

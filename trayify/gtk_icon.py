@@ -5,34 +5,60 @@ import sys
 # Third Party imports
 import gtk
 import gobject
+try:
+    import appindicator
+except:
+    pass
 
 # Local Imports
 # none
 
 
 class NotificationIcon(object):
-    ''' The Gtk Icon Instance '''
-
     def __init__(self, *args, **kwargs):
         ''' Basics to creating a PyGTK interface '''
         gobject.threads_init()
         gtk.gdk.threads_init()
+        try:
+            if 'Indicator' in dir(appindicator) and 'appindicator' in args:
+                self.app_name = "example-simple-client"
+                self.icon_name = "ubuntuone-client-idle"
+                self.has_appindicator = True
+            else:
+                raise
+        except:
+            self.has_appindicator = False
 
     def start(self):
         ''' Display the interface '''
         gtk.main()
 
+    def stop(self, event):
+        gtk.main_quit(event)
+        if self.has_appindicator:
+            self.icon.set_status(appindicator.STATUS_PASSIVE)
+
+    ''' The AppIndicator Icon Instance '''
     def create_icon(self):
         ''' Create the "System Tray" icon '''
-        self.icon = gtk.StatusIcon()
-        self.icon.set_from_stock(gtk.STOCK_ABOUT)
-        self.icon.set_visible(True)
+        if self.has_appindicator:
+            self.icon = appindicator.Indicator(
+                self.app_name, self.icon_name,
+                appindicator.CATEGORY_APPLICATION_STATUS)
+            self.icon.set_status(appindicator.STATUS_ACTIVE)
+        else:
+            self.icon = gtk.StatusIcon()
+            self.icon.set_from_stock(gtk.STOCK_ABOUT)
+            self.icon.set_visible(True)
 
     def add_menu(self, menu_items):
         ''' Create the Right-Click menu '''
         self.menu_items = menu_items
 
-        self.icon.connect("popup-menu", self._generate_menu)
+        if self.has_appindicator:
+            self.icon.set_menu(self._generate_menu())
+        else:
+            self.icon.connect("popup-menu", self._generate_menu)
 
     def show_message(self, message, message_type='info'):
         ''' display alert dialog '''
@@ -89,12 +115,13 @@ class NotificationIcon(object):
 
     def set_tooltip(self, message):
         ''' Set the tooltip on the icon '''
-        self.icon.set_tooltip(message)
+        if not self.has_appindicator:
+            self.icon.set_tooltip(message)
 
     def _extract_response(self, entry, dialog, response):
         dialog.response(response)
 
-    def _generate_menu(self, icon, button, time):
+    def _generate_menu(self, icon=None, button=None, time=None):
         ''' Generate the right-click menu '''
         menu = gtk.Menu()
 
@@ -104,10 +131,12 @@ class NotificationIcon(object):
             menu.append(item)
 
         quit = gtk.MenuItem("Quit")
-        quit.connect("activate", gtk.main_quit)
+        quit.connect("activate", self.stop)
         menu.append(quit)
 
         menu.show_all()
-
-        menu.popup(None, None, gtk.status_icon_position_menu,
-                   button, time, self.icon)
+        if self.has_appindicator:
+            return menu
+        else:
+            menu.popup(None, None, gtk.status_icon_position_menu,
+                       button, time, self.icon)
