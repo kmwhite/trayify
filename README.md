@@ -1,5 +1,7 @@
 # Trayify #
+This page has now moved to: [BITBUCKET](https://bitbucket.org/kmwhite/trayify)
 
+# DEPRECATED: #
 ## Description ##
 
 Trayify is a library to provide a simple api to create basic systemtray icon applications.
