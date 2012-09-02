@@ -1,7 +1,4 @@
 # Trayify #
-This page has now moved to: [BITBUCKET](https://bitbucket.org/kmwhite/trayify)
-
-# DEPRECATED: #
 ## Description ##
 
 Trayify is a library to provide a simple api to create basic systemtray icon applications.
@@ -42,6 +39,10 @@ Trayify is a library to provide a simple api to create basic systemtray icon app
 * Commit and push until you are happy with your contribution
 * Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
 * Please try not to mess with the Fabfile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
+
+## Thanks and Contributors ##
+Thanks to the following for help or code contributions:
+ * Brad Pitcher (@brad)
 
 ## License ##
 Copyright (c) 2012, Kristofer M White
