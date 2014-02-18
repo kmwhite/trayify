@@ -43,6 +43,7 @@ Trayify is a library to provide a simple api to create basic systemtray icon app
 ## Thanks and Contributors ##
 Thanks to the following for help or code contributions:
  * Brad Pitcher (@brad)
+ * [@kiij](https://github.com/kiij)
 
 ## License ##
 Copyright (c) 2012, Kristofer M White

@@ -28,6 +28,7 @@ class NotificationIcon(object):
                 raise
         except:
             self.has_appindicator = False
+        self.menu_items = None
 
     def start(self):
         ''' Display the interface '''
@@ -51,14 +52,20 @@ class NotificationIcon(object):
             self.icon.set_from_stock(gtk.STOCK_ABOUT)
             self.icon.set_visible(True)
 
-    def add_menu(self, menu_items):
-        ''' Create the Right-Click menu '''
-        self.menu_items = menu_items
+    def has_menu(self):
+        ''' Return True iff the right-click menu has been created '''
+        return self.menu_items is not None
 
+    def add_menu(self, menu_items):
+        ''' Create the right-click menu '''
         if self.has_appindicator:
+            self.menu_items = menu_items
             self.icon.set_menu(self._generate_menu())
-        else:
+        elif not self.has_menu():
+            self.menu_items = menu_items
             self.icon.connect("popup-menu", self._generate_menu)
+        else:
+            self.menu_items = menu_items
 
     def show_message(self, message, message_type='info'):
         ''' display alert dialog '''
@@ -118,6 +125,12 @@ class NotificationIcon(object):
         if not self.has_appindicator:
             self.icon.set_tooltip(message)
 
+    def set_image_from_file(self, filename):
+        self.icon.set_from_file(filename)
+
+    def set_image_from_stock(self, stock_icon):
+        self.icon.set_from_stock(stock_icon)
+
     def _extract_response(self, entry, dialog, response):
         dialog.response(response)
 
@@ -125,10 +138,22 @@ class NotificationIcon(object):
         ''' Generate the right-click menu '''
         menu = gtk.Menu()
 
-        for name, func in self.menu_items.items():
-            item = gtk.MenuItem(name)
-            item.connect("activate", func)
-            menu.append(item)
+        if isinstance(self.menu_items, dict):
+            for name, func in self.menu_items.items():
+                item = gtk.MenuItem(name)
+                item.connect("activate", func)
+                menu.append(item)
+        elif isinstance(self.menu_items, list):
+            for entry in self.menu_items:
+                if entry is None:
+                    menu.append(gtk.SeparatorMenuItem())
+                elif isinstance(entry, str):
+                    menu.append(gtk.MenuItem(entry))
+                elif isinstance(entry, tuple):
+                    name, func = entry
+                    item = gtk.MenuItem(name)
+                    item.connect("activate", func)
+                    menu.append(item)
 
         quit = gtk.MenuItem("Quit")
         quit.connect("activate", self.stop)
