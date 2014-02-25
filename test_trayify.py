@@ -54,6 +54,28 @@ class TestTrayify(unittest.TestCase):
                          trayify.gtk_icon.gtk.STOCK_ABOUT,
                          'inst_icon does not have the correct icon')
 
+    def test_appindicator_has_menu(self):
+        ''' Testing the menu-related operations of the gtk_icon.NotificationIcon instance '''
+        # Creating an AppIndicator NotificationIcon
+        icon = trayify.initialize('appindicator')
+        self.assertIsInstance(icon, trayify.gtk_icon.NotificationIcon,
+                              'icon is not an appindicator_icon.NotificationIcon')
+        icon.create_icon()
+        self.assertFalse(icon.has_menu())
+        icon.add_menu(["Menu Text"])
+        self.assertTrue(icon.has_menu())
+
+    def test_gtk_has_menu(self):
+        ''' Testing the menu-related operations of the gtk_icon.NotificationIcon instance '''
+        # Creating a GTK NotificationIcon
+        icon = trayify.initialize('gtk')
+        self.assertIsInstance(icon, trayify.gtk_icon.NotificationIcon,
+                              'icon is not a gtk_icon.NotificationIcon')
+        icon.create_icon()
+        self.assertFalse(icon.has_menu())
+        icon.add_menu(["Menu Text"])
+        self.assertTrue(icon.has_menu())
+
     def test_qt_icons(self):
         ''' Testing the creation of the qt_icon.NotificationIcon instance '''
 
